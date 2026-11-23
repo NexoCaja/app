@@ -25,7 +25,7 @@
           }
         }
       }
-    }
+    };
   </script>
   <style>
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -443,7 +443,6 @@
             <p class="text-xs text-slate-500 dark:text-slate-400">Personalizá tu comercio, apariencia, contraseñas y copias de seguridad.</p>
           </div>
 
-          <!-- Apariencia -->
           <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
             <div>
               <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
@@ -459,7 +458,6 @@
             </button>
           </div>
 
-          <!-- Datos del Comercio -->
           <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
             <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
               <i data-lucide="store" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Identidad del Comercio
@@ -479,7 +477,6 @@
             </button>
           </div>
 
-          <!-- Seguridad y Contraseñas -->
           <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
             <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
               <i data-lucide="shield-check" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Seguridad y Roles
@@ -502,7 +499,6 @@
             </button>
           </div>
 
-          <!-- Respaldo y Mantenimiento -->
           <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
             <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
               <i data-lucide="database" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Copias de Seguridad (Respaldo)
@@ -562,7 +558,7 @@
 
         <div id="cash-change-box" class="bg-slate-50 dark:bg-slate-800/70 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
           <div class="flex items-center justify-between">
-            <label class="text-xs font-semibold text-slate-600 dark:text-slate-300">Abona con (\$):</label>
+            <label class="text-xs font-semibold text-slate-600 dark:text-slate-300">Abona con ($):</label>
             <input type="number" id="cash-received" oninput="calculateChange()" placeholder="Ej: 10000"
               class="w-32 px-3 py-1.5 text-right font-bold text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 rounded-lg outline-none focus:border-blue-600">
           </div>
@@ -593,7 +589,7 @@
             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Monto (\$)</label>
+          <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Monto ($)</label>
           <input type="number" id="quick-price" required min="1" step="any" placeholder="Ej: 1500"
             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-base font-bold outline-none focus:border-blue-600">
         </div>
@@ -639,12 +635,12 @@
         </div>
         <div class="grid grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Costo (\$)</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Costo ($)</label>
             <input type="number" id="prod-cost" min="0" step="any" value="0"
               class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Precio Venta (\$)</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Precio Venta ($)</label>
             <input type="number" id="prod-price" required min="1" step="any"
               class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold outline-none focus:border-blue-600">
           </div>
@@ -698,50 +694,67 @@
     let selectedCategory = 'Todos';
     let selectedPaymentMethod = 'Efectivo';
 
-    // ==================== GESTIÓN DE TEMA (CLARO / OSCURO) ====================
     function applySavedTheme() {
-      const savedTheme = localStorage.getItem(THEME_KEY);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      try {
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
     }
 
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.classList.toggle('dark');
-      localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      try {
+        localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      } catch (e) {}
       if (window.lucide) lucide.createIcons();
     }
 
     function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          appData = { ...appData, ...JSON.parse(saved) };
-        } catch (e) {
-          console.error('Error cargando datos:', e);
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === 'object') {
+            appData = { ...appData, ...parsed };
+            if (!Array.isArray(appData.products)) appData.products = [...DEFAULT_PRODUCTS];
+            if (!Array.isArray(appData.sales)) appData.sales = [];
+          }
         }
+      } catch (e) {
+        console.error('Error cargando datos:', e);
       }
     }
 
     function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      } catch (e) {}
       updateLowStockBadge();
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    function initApp() {
       applySavedTheme();
       loadData();
-      if (window.lucide) lucide.createIcons();
-
+      if (window.lucide) {
+        try { lucide.createIcons(); } catch (e) {}
+      }
       if (!appData.configured) {
         document.getElementById('setup-screen').classList.remove('hidden');
       } else {
         showLoginScreen();
       }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
 
     function togglePassVisibility(inputId) {
       const input = document.getElementById(inputId);
@@ -764,4 +777,682 @@
     });
 
     function showLoginScreen() {
-      document.getElementById('app-container').classList.add('
+      document.getElementById('app-container').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('login-store-title').textContent = appData.storeName;
+      document.getElementById('login-password').value = '';
+      document.getElementById('login-error').classList.add('hidden');
+      setTimeout(() => document.getElementById('login-password').focus(), 100);
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pass = document.getElementById('login-password').value;
+      if (pass === appData.ownerPassword) {
+        document.getElementById('login-screen').classList.add('hidden');
+        enterApp('owner');
+      } else if (appData.cashierPassword && pass === appData.cashierPassword) {
+        document.getElementById('login-screen').classList.add('hidden');
+        enterApp('cashier');
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    });
+
+    function lockApp() {
+      currentRole = null;
+      showLoginScreen();
+    }
+
+    function openRecoveryModal() {
+      document.getElementById('recovery-question-text').textContent = appData.securityQuestion;
+      document.getElementById('recovery-answer-input').value = '';
+      document.getElementById('recovery-new-pass').value = '';
+      document.getElementById('recovery-error').classList.add('hidden');
+      document.getElementById('recovery-modal').classList.remove('hidden');
+    }
+
+    function closeRecoveryModal() {
+      document.getElementById('recovery-modal').classList.add('hidden');
+    }
+
+    document.getElementById('recovery-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ans = document.getElementById('recovery-answer-input').value.trim().toLowerCase();
+      const newPass = document.getElementById('recovery-new-pass').value;
+      if (ans === appData.securityAnswer) {
+        appData.ownerPassword = newPass;
+        saveData();
+        closeRecoveryModal();
+        document.getElementById('login-screen').classList.add('hidden');
+        enterApp('owner');
+        showToast('Contraseña restablecida correctamente');
+      } else {
+        document.getElementById('recovery-error').classList.remove('hidden');
+      }
+    });
+
+    function enterApp(role) {
+      currentRole = role;
+      document.getElementById('app-container').classList.remove('hidden');
+      document.getElementById('sidebar-store-name').textContent = appData.storeName;
+
+      const badge = document.getElementById('sidebar-role-badge');
+      const ownerEls = document.querySelectorAll('.owner-only');
+
+      if (role === 'owner') {
+        badge.textContent = 'Modo Dueño';
+        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400';
+        ownerEls.forEach(el => el.classList.remove('hidden'));
+      } else {
+        badge.textContent = 'Modo Cajero';
+        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-400';
+        ownerEls.forEach(el => el.classList.add('hidden'));
+      }
+
+      switchTab('pos');
+      updateLowStockBadge();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function switchTab(tab) {
+      if (currentRole === 'cashier' && tab !== 'pos') return;
+
+      ['pos', 'products', 'sales', 'settings'].forEach(t => {
+        document.getElementById(`view-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`nav-${t}`);
+        if (btn) {
+          btn.classList.remove('bg-blue-600', 'text-white', 'font-semibold');
+          btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800', 'font-medium');
+        }
+      });
+
+      document.getElementById(`view-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-${tab}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800', 'font-medium');
+        activeBtn.classList.add('bg-blue-600', 'text-white', 'font-semibold');
+      }
+
+      if (tab === 'pos') {
+        renderPosCategories();
+        renderPosProducts();
+        renderCart();
+      } else if (tab === 'products') {
+        renderInventoryTable();
+      } else if (tab === 'sales') {
+        renderSalesView();
+      } else if (tab === 'settings') {
+        loadSettingsForm();
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderPosCategories() {
+      const cats = ['Todos', ...new Set(appData.products.map(p => p.category))];
+      const container = document.getElementById('pos-categories');
+      container.innerHTML = cats.map(c => `
+        <button onclick="selectCategory('${c}')"
+          class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
+            selectedCategory === c
+              ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-2xs'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'
+          }">
+          ${c}
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      renderPosCategories();
+      renderPosProducts();
+    }
+
+    function renderPosProducts() {
+      const query = document.getElementById('pos-search').value.toLowerCase().trim();
+      const filtered = appData.products.filter(p => {
+        const matchCat = selectedCategory === 'Todos' || p.category === selectedCategory;
+        const matchQuery = p.name.toLowerCase().includes(query) || (p.code && p.code.toLowerCase().includes(query));
+        return matchCat && matchQuery;
+      });
+
+      const grid = document.getElementById('pos-grid');
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-400">
+            <p class="text-sm font-medium">No se encontraron productos</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const outOfStock = p.stock <= 0;
+        const lowStock = p.stock > 0 && p.stock <= 5;
+        let badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400">Stock: ${p.stock}</span>`;
+        if (outOfStock) badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 dark:bg-red-950/70 text-red-600 dark:text-red-400">Agotado</span>`;
+        else if (lowStock) badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400">Bajo: ${p.stock}</span>`;
+
+        return `
+          <div onclick="${outOfStock ? '' : `addToCart('${p.id}')`}"
+            class="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between transition ${
+              outOfStock ? 'opacity-50 cursor-not-allowed' : 'hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md cursor-pointer active:scale-[0.98]'
+            }">
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 truncate">${p.category}</span>
+                ${badgeHtml}
+              </div>
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm leading-snug line-clamp-2">${p.name}</h3>
+              ${p.code ? `<p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">Cód: ${p.code}</p>` : ''}
+            </div>
+            <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-50 dark:border-slate-800">
+              <span class="text-lg font-extrabold text-slate-900 dark:text-white">$${formatMoney(p.price)}</span>
+              <span class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-base">+</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addToCart(productId) {
+      const prod = appData.products.find(p => p.id === productId);
+      if (!prod || prod.stock <= 0) return;
+
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        if (existing.qty < prod.stock) {
+          existing.qty++;
+        } else {
+          showToast('No hay más stock disponible');
+          return;
+        }
+      } else {
+        cart.push({ id: prod.id, name: prod.name, price: prod.price, cost: prod.cost || 0, qty: 1, isCustom: false });
+      }
+      renderCart();
+    }
+
+    function openQuickItemModal() {
+      document.getElementById('quick-desc').value = 'Varios / Producto suelto';
+      document.getElementById('quick-price').value = '';
+      document.getElementById('quick-item-modal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('quick-price').focus(), 100);
+    }
+
+    function closeQuickItemModal() {
+      document.getElementById('quick-item-modal').classList.add('hidden');
+    }
+
+    document.getElementById('quick-item-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const desc = document.getElementById('quick-desc').value.trim();
+      const price = parseFloat(document.getElementById('quick-price').value);
+      if (!desc || isNaN(price) || price <= 0) return;
+
+      cart.push({
+        id: 'custom-' + Date.now(),
+        name: desc,
+        price: price,
+        cost: 0,
+        qty: 1,
+        isCustom: true
+      });
+      closeQuickItemModal();
+      renderCart();
+    });
+
+    function updateCartQty(index, delta) {
+      const item = cart[index];
+      if (!item) return;
+      if (!item.isCustom && delta > 0) {
+        const prod = appData.products.find(p => p.id === item.id);
+        if (prod && item.qty + delta > prod.stock) {
+          showToast('Stock máximo alcanzado');
+          return;
+        }
+      }
+      item.qty += delta;
+      if (item.qty <= 0) cart.splice(index, 1);
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      document.getElementById('cart-discount').value = 0;
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center text-slate-400 py-8">
+            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
+              <i data-lucide="receipt" class="w-6 h-6 text-slate-300 dark:text-slate-600"></i>
+            </div>
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">El ticket está vacío</p>
+            <p class="text-xs max-w-[200px] mt-1">Hacé clic en cualquier producto del catálogo para sumarlo a la venta.</p>
+          </div>`;
+        if (window.lucide) lucide.createIcons();
+        updateCartTotals();
+        return;
+      }
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 shadow-2xs">
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${item.name}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">$${formatMoney(item.price)} c/u</p>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="updateCartQty(${idx}, -1)" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold">-</button>
+            <span class="w-6 text-center text-xs font-bold dark:text-white">${item.qty}</span>
+            <button onclick="updateCartQty(${idx}, 1)" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold">+</button>
+          </div>
+          <div class="text-right min-w-[65px]">
+            <p class="text-xs font-extrabold text-slate-900 dark:text-white">$${formatMoney(item.price * item.qty)}</p>
+          </div>
+        </div>
+      `).join('');
+
+      updateCartTotals();
+    }
+
+    function getCartCalculation() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const discVal = parseFloat(document.getElementById('cart-discount').value) || 0;
+      const discType = document.getElementById('cart-discount-type').value;
+
+      let discountAmount = discType === '%' ? (subtotal * (discVal / 100)) : discVal;
+      if (discountAmount > subtotal) discountAmount = subtotal;
+      const total = Math.max(0, subtotal - discountAmount);
+      return { subtotal, discountAmount, total };
+    }
+
+    function updateCartTotals() {
+      const { subtotal, total } = getCartCalculation();
+      document.getElementById('cart-subtotal').textContent = `$${formatMoney(subtotal)}`;
+      document.getElementById('cart-total').textContent = `$${formatMoney(total)}`;
+
+      const btn = document.getElementById('btn-checkout');
+      const btnText = document.getElementById('btn-checkout-text');
+      btnText.textContent = `COBRAR $${formatMoney(total)}`;
+
+      if (cart.length > 0 && total >= 0) {
+        btn.disabled = false;
+        btn.classList.remove('bg-slate-300', 'dark:bg-slate-800');
+        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+      } else {
+        btn.disabled = true;
+        btn.classList.add('bg-slate-300', 'dark:bg-slate-800');
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+      }
+    }
+
+    function openCheckoutModal() {
+      const { total } = getCartCalculation();
+      document.getElementById('modal-checkout-total').textContent = `$${formatMoney(total)}`;
+      document.getElementById('cash-received').value = '';
+      document.getElementById('cash-change-amount').textContent = '$0';
+      selectPaymentMethod('Efectivo');
+      document.getElementById('checkout-modal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+
+    function selectPaymentMethod(method) {
+      selectedPaymentMethod = method;
+      document.querySelectorAll('.pay-method-btn').forEach(btn => {
+        if (btn.textContent.trim().includes(method.split(' ')[0])) {
+          btn.classList.add('border-2', 'border-blue-600', 'bg-blue-50', 'dark:bg-blue-950/60', 'text-blue-700', 'dark:text-blue-400');
+          btn.classList.remove('border', 'border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+        } else {
+          btn.classList.remove('border-2', 'border-blue-600', 'bg-blue-50', 'dark:bg-blue-950/60', 'text-blue-700', 'dark:text-blue-400');
+          btn.classList.add('border', 'border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+        }
+      });
+
+      const changeBox = document.getElementById('cash-change-box');
+      if (method === 'Efectivo') changeBox.classList.remove('hidden');
+      else changeBox.classList.add('hidden');
+    }
+
+    function calculateChange() {
+      const { total } = getCartCalculation();
+      const received = parseFloat(document.getElementById('cash-received').value) || 0;
+      const change = Math.max(0, received - total);
+      document.getElementById('cash-change-amount').textContent = `$${formatMoney(change)}`;
+    }
+
+    function finalizeSale() {
+      if (cart.length === 0) return;
+      const { subtotal, discountAmount, total } = getCartCalculation();
+
+      let totalCost = 0;
+      cart.forEach(item => {
+        totalCost += (item.cost || 0) * item.qty;
+        if (!item.isCustom) {
+          const prod = appData.products.find(p => p.id === item.id);
+          if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
+        }
+      });
+
+      const saleRecord = {
+        id: 'V-' + Date.now(),
+        date: new Date().toISOString(),
+        items: [...cart],
+        subtotal,
+        discount: discountAmount,
+        total,
+        profit: total - totalCost,
+        paymentMethod: selectedPaymentMethod
+      };
+
+      appData.sales.unshift(saleRecord);
+      saveData();
+
+      closeCheckoutModal();
+      clearCart();
+      renderPosProducts();
+      showToast(`Venta registrada: $${formatMoney(total)}`);
+    }
+
+    function updateLowStockBadge() {
+      const lowCount = appData.products.filter(p => p.stock <= 5).length;
+      const badge = document.getElementById('low-stock-badge');
+      if (lowCount > 0) {
+        badge.textContent = lowCount;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function renderInventoryTable() {
+      const q = document.getElementById('inv-search').value.toLowerCase().trim();
+      const stockFilter = document.getElementById('inv-filter-stock').value;
+
+      const filtered = appData.products.filter(p => {
+        const matchQ = p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.code && p.code.includes(q));
+        const matchStock = stockFilter === 'all' || p.stock <= 5;
+        return matchQ && matchStock;
+      });
+
+      const tbody = document.getElementById('inventory-tbody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-sm">No hay productos para mostrar</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+          <td class="py-3 px-4">
+            <p class="font-bold text-slate-900 dark:text-white">${p.name}</p>
+            ${p.code ? `<p class="text-[11px] text-slate-400 dark:text-slate-500">Cód: ${p.code}</p>` : ''}
+          </td>
+          <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium">${p.category}</span></td>
+          <td class="py-3 px-4 text-right text-slate-500 dark:text-slate-400">$${formatMoney(p.cost || 0)}</td>
+          <td class="py-3 px-4 text-right font-bold text-slate-900 dark:text-white">$${formatMoney(p.price)}</td>
+          <td class="py-3 px-4 text-center">
+            <div class="inline-flex items-center gap-1.5">
+              <button onclick="quickAdjustStock('${p.id}', -1)" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 dark:text-slate-200 font-bold text-xs">-</button>
+              <span class="w-8 text-center font-bold ${p.stock <= 5 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-800 dark:text-slate-200'}">${p.stock}</span>
+              <button onclick="quickAdjustStock('${p.id}', 1)" class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 dark:text-slate-200 font-bold text-xs">+</button>
+            </div>
+          </td>
+          <td class="py-3 px-4 text-right space-x-1">
+            <button onclick="openProductModal('${p.id}')" class="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/60 rounded-lg" title="Editar">
+              <i data-lucide="edit-2" class="w-4 h-4"></i>
+            </button>
+            <button onclick="deleteProduct('${p.id}')" class="p-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/60 rounded-lg" title="Eliminar">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function quickAdjustStock(id, delta) {
+      const prod = appData.products.find(p => p.id === id);
+      if (!prod) return;
+      prod.stock = Math.max(0, prod.stock + delta);
+      saveData();
+      renderInventoryTable();
+    }
+
+    function openProductModal(id = null) {
+      document.getElementById('product-form').reset();
+      if (id) {
+        const prod = appData.products.find(p => p.id === id);
+        if (!prod) return;
+        document.getElementById('product-modal-title').textContent = 'Editar Producto';
+        document.getElementById('prod-id').value = prod.id;
+        document.getElementById('prod-name').value = prod.name;
+        document.getElementById('prod-category').value = prod.category;
+        document.getElementById('prod-code').value = prod.code || '';
+        document.getElementById('prod-cost').value = prod.cost || 0;
+        document.getElementById('prod-price').value = prod.price;
+        document.getElementById('prod-stock').value = prod.stock;
+      } else {
+        document.getElementById('product-modal-title').textContent = 'Nuevo Producto';
+        document.getElementById('prod-id').value = '';
+      }
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    document.getElementById('product-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('prod-id').value;
+      const productObj = {
+        id: id || 'P-' + Date.now(),
+        name: document.getElementById('prod-name').value.trim(),
+        category: document.getElementById('prod-category').value.trim(),
+        code: document.getElementById('prod-code').value.trim(),
+        cost: parseFloat(document.getElementById('prod-cost').value) || 0,
+        price: parseFloat(document.getElementById('prod-price').value),
+        stock: parseInt(document.getElementById('prod-stock').value) || 0
+      };
+
+      if (id) {
+        const idx = appData.products.findIndex(p => p.id === id);
+        if (idx !== -1) appData.products[idx] = productObj;
+      } else {
+        appData.products.unshift(productObj);
+      }
+
+      saveData();
+      closeProductModal();
+      renderInventoryTable();
+      showToast('Producto guardado');
+    });
+
+    function deleteProduct(id) {
+      if (!confirm('¿Seguro que querés eliminar este producto?')) return;
+      appData.products = appData.products.filter(p => p.id !== id);
+      saveData();
+      renderInventoryTable();
+      showToast('Producto eliminado');
+    }
+
+    function copyLowStockList() {
+      const low = appData.products.filter(p => p.stock <= 5);
+      if (low.length === 0) {
+        showToast('No tenés productos con stock bajo');
+        return;
+      }
+      const text = '📋 *Pedido de Reposición - ' + appData.storeName + '*\n' +
+        low.map(p => '• ' + p.name + ' (Quedan: ' + p.stock + ')').join('\n');
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Lista de faltantes copiada para WhatsApp');
+      });
+    }
+
+    function renderSalesView() {
+      const todayStr = new Date().toDateString();
+      const todaySales = appData.sales.filter(s => new Date(s.date).toDateString() === todayStr);
+
+      const todayTotal = todaySales.reduce((acc, s) => acc + s.total, 0);
+      const todayProfit = todaySales.reduce((acc, s) => acc + (s.profit || 0), 0);
+      const histTotal = appData.sales.reduce((acc, s) => acc + s.total, 0);
+
+      document.getElementById('kpi-today-sales').textContent = `$${formatMoney(todayTotal)}`;
+      document.getElementById('kpi-today-count').textContent = `${todaySales.length} operaciones`;
+      document.getElementById('kpi-today-profit').textContent = `$${formatMoney(todayProfit)}`;
+      document.getElementById('kpi-total-sales').textContent = `$${formatMoney(histTotal)}`;
+      document.getElementById('kpi-total-count').textContent = `${appData.sales.length} tickets registrados`;
+
+      const tbody = document.getElementById('sales-tbody');
+      if (appData.sales.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 text-sm">Todavía no hay ventas registradas</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = appData.sales.map(s => {
+        const d = new Date(s.date);
+        const dateFormatted = `${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
+        const summary = s.items.map(i => `${i.qty}x ${i.name}`).join(', ');
+        return `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+            <td class="py-3 px-4 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">${dateFormatted}</td>
+            <td class="py-3 px-4 text-xs font-medium text-slate-800 dark:text-slate-200 max-w-xs truncate" title="${summary}">${summary}</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold">${s.paymentMethod}</span></td>
+            <td class="py-3 px-4 text-right font-bold text-emerald-600 dark:text-emerald-400">$${formatMoney(s.total)}</td>
+            <td class="py-3 px-4 text-right">
+              <button onclick="cancelSale('${s.id}')" class="text-xs text-red-600 dark:text-red-400 hover:underline font-medium">Anular</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function cancelSale(saleId) {
+      if (!confirm('¿Anular esta venta y devolver los productos al stock?')) return;
+      const idx = appData.sales.findIndex(s => s.id === saleId);
+      if (idx === -1) return;
+
+      const sale = appData.sales[idx];
+      sale.items.forEach(item => {
+        if (!item.isCustom) {
+          const prod = appData.products.find(p => p.id === item.id);
+          if (prod) prod.stock += item.qty;
+        }
+      });
+
+      appData.sales.splice(idx, 1);
+      saveData();
+      renderSalesView();
+      showToast('Venta anulada y stock restaurado');
+    }
+
+    function exportSalesCSV() {
+      if (appData.sales.length === 0) {
+        showToast('No hay ventas para exportar');
+        return;
+      }
+      let csv = 'Fecha,Medio de Pago,Productos,Total,Ganancia\n';
+      appData.sales.forEach(s => {
+        const d = new Date(s.date).toLocaleString('es-AR').replace(',', '');
+        const itemsStr = s.items.map(i => `${i.qty}x ${i.name}`).join(' | ').replace(/,/g, ' ');
+        csv += `"${d}","${s.paymentMethod}","${itemsStr}",${s.total},${s.profit || 0}\n`;
+      });
+      downloadFile(csv, `Ventas_${appData.storeName.replace(/\s+/g, '_')}.csv`, 'text/csv');
+    }
+
+    function loadSettingsForm() {
+      document.getElementById('cfg-store-name').value = appData.storeName;
+      document.getElementById('cfg-store-sub').value = appData.storeSub;
+      document.getElementById('cfg-owner-pass').value = '';
+      document.getElementById('cfg-cashier-pass').value = appData.cashierPassword || '';
+    }
+
+    function saveStoreSettings() {
+      appData.storeName = document.getElementById('cfg-store-name').value.trim() || 'Mi Comercio';
+      appData.storeSub = document.getElementById('cfg-store-sub').value.trim();
+      saveData();
+      document.getElementById('sidebar-store-name').textContent = appData.storeName;
+      showToast('Datos del comercio actualizados');
+    }
+
+    function saveSecuritySettings() {
+      const newOwner = document.getElementById('cfg-owner-pass').value;
+      const newCashier = document.getElementById('cfg-cashier-pass').value.trim();
+
+      if (newOwner && newOwner.length < 4) {
+        showToast('La clave de dueño debe tener al menos 4 caracteres');
+        return;
+      }
+      if (newOwner) appData.ownerPassword = newOwner;
+      appData.cashierPassword = newCashier;
+      saveData();
+      document.getElementById('cfg-owner-pass').value = '';
+      showToast('Configuración de seguridad guardada');
+    }
+
+    function exportBackupJSON() {
+      const json = JSON.stringify(appData, null, 2);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      downloadFile(json, `Respaldo_NexoCaja_${dateStr}.json`, 'application/json');
+      showToast('Respaldo descargado. Guardalo en tu WhatsApp.');
+    }
+
+    function importBackupJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported && Array.isArray(imported.products)) {
+            appData = { ...appData, ...imported };
+            saveData();
+            showToast('Respaldo restaurado con éxito');
+            enterApp('owner');
+          } else {
+            showToast('Archivo de respaldo inválido');
+          }
+        } catch (err) {
+          showToast('Error al leer el archivo');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function clearDemoProducts() {
+      if (!confirm('¿Borrar TODOS los productos del catálogo para empezar a cargar los tuyos desde cero?')) return;
+      appData.products = [];
+      saveData();
+      showToast('Catálogo vaciado');
+    }
+
+    function formatMoney(num) {
+      return Number(num).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    }
+
+    function downloadFile(content, filename, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+  </script>
+</body>
+</html>
