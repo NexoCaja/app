@@ -11,6 +11,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -30,16 +31,22 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="h-full text-slate-900 antialiased select-none">
+<body class="h-full text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-950 antialiased select-none transition-colors duration-200">
 
   <!-- ==================== 1. ASISTENTE DE PRIMER INICIO ==================== -->
-  <div id="setup-screen" class="hidden fixed inset-0 z-50 bg-slate-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 p-8 my-auto">
+  <div id="setup-screen" class="hidden fixed inset-0 z-50 bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-8 my-auto relative">
+      <button type="button" onclick="toggleTheme()" class="absolute top-5 right-5 p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Cambiar tema">
+        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+        <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+      </button>
+
       <div class="text-center mb-6">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 shadow-lg shadow-blue-600/20 mb-4">
           <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,45 +55,45 @@
             <circle cx="44" cy="38" r="7" fill="#10B981"/>
           </svg>
         </div>
-        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 mb-2">NexoCaja POS</span>
-        <h1 class="text-2xl font-bold text-slate-900">Configuración Inicial</h1>
-        <p class="text-sm text-slate-500 mt-1">Configurá los datos de tu comercio y creá tu contraseña maestra para proteger el sistema.</p>
+        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-2">NexoCaja POS</span>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Configuración Inicial</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Configurá los datos de tu comercio y creá tu contraseña maestra para proteger el sistema.</p>
       </div>
 
       <form id="setup-form" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Nombre de tu Comercio</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nombre de tu Comercio</label>
           <input type="text" id="setup-store-name" required placeholder="Ej: Almacén Don Pepe"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Rubro / Subtítulo (Opcional)</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Rubro / Subtítulo (Opcional)</label>
           <input type="text" id="setup-store-sub" placeholder="Ej: Almacén & Minimarket"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Contraseña Maestra (Dueño)</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Contraseña Maestra (Dueño)</label>
           <div class="relative">
             <input type="password" id="setup-password" required minlength="4" placeholder="Mínimo 4 caracteres"
-              class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
-            <button type="button" onclick="togglePassVisibility('setup-password')" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+              class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
+            <button type="button" onclick="togglePassVisibility('setup-password')" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
               <i data-lucide="eye" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Pregunta de Seguridad (Por si olvidás la clave)</label>
-          <select id="setup-question" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm bg-white transition mb-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Pregunta de Seguridad (Por si olvidás la clave)</label>
+          <select id="setup-question" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition mb-2">
             <option value="¿Nombre de tu primera mascota?">¿Nombre de tu primera mascota?</option>
             <option value="¿Año de apertura del negocio?">¿Año de apertura del negocio?</option>
             <option value="¿Ciudad donde naciste?">¿Ciudad donde naciste?</option>
             <option value="¿Nombre de tu madre o padre?">¿Nombre de tu madre o padre?</option>
           </select>
           <input type="text" id="setup-answer" required placeholder="Tu respuesta secreta..."
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-sm transition">
         </div>
 
         <button type="submit"
@@ -99,8 +106,13 @@
   </div>
 
   <!-- ==================== 2. PANTALLA DE INICIO DE SESIÓN (LOGIN) ==================== -->
-  <div id="login-screen" class="hidden fixed inset-0 z-50 bg-slate-50 flex items-center justify-center p-4">
-    <div class="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
+  <div id="login-screen" class="hidden fixed inset-0 z-50 bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-8 relative">
+      <button type="button" onclick="toggleTheme()" class="absolute top-5 right-5 p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Cambiar tema">
+        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+        <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+      </button>
+
       <div class="text-center mb-6">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 shadow-lg shadow-blue-600/20 mb-4">
           <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,21 +121,21 @@
             <circle cx="44" cy="38" r="7" fill="#10B981"/>
           </svg>
         </div>
-        <h2 id="login-store-title" class="text-xl font-bold text-slate-900">NexoCaja</h2>
-        <p class="text-xs font-medium text-blue-600 mt-0.5">Sistema de Cobro & Control de Stock</p>
-        <p class="text-sm text-slate-500 mt-3">Ingresá tu contraseña de Dueño o Cajero</p>
+        <h2 id="login-store-title" class="text-xl font-bold text-slate-900 dark:text-white">NexoCaja</h2>
+        <p class="text-xs font-medium text-blue-600 dark:text-blue-400 mt-0.5">Sistema de Cobro & Control de Stock</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-3">Ingresá tu contraseña de Dueño o Cajero</p>
       </div>
 
       <form id="login-form" class="space-y-4">
         <div>
           <div class="relative">
             <input type="password" id="login-password" required placeholder="Contraseña..."
-              class="w-full px-4 py-3 pr-10 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-base transition">
-            <button type="button" onclick="togglePassVisibility('login-password')" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600">
+              class="w-full px-4 py-3 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 outline-none text-base transition">
+            <button type="button" onclick="togglePassVisibility('login-password')" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
               <i data-lucide="eye" class="w-4 h-4"></i>
             </button>
           </div>
-          <p id="login-error" class="hidden text-xs text-red-600 font-medium mt-1.5 flex items-center gap-1">
+          <p id="login-error" class="hidden text-xs text-red-600 dark:text-red-400 font-medium mt-1.5 flex items-center gap-1">
             <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Contraseña incorrecta. Intentá de nuevo.
           </p>
         </div>
@@ -135,8 +147,8 @@
         </button>
       </form>
 
-      <div class="mt-5 text-center border-t border-slate-100 pt-4">
-        <button type="button" onclick="openRecoveryModal()" class="text-xs text-slate-500 hover:text-blue-600 font-medium transition">
+      <div class="mt-5 text-center border-t border-slate-100 dark:border-slate-800 pt-4">
+        <button type="button" onclick="openRecoveryModal()" class="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">
           ¿Olvidaste tu contraseña de Dueño?
         </button>
       </div>
@@ -144,25 +156,25 @@
   </div>
 
   <!-- MODAL RECUPERAR CONTRASEÑA -->
-  <div id="recovery-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200">
+  <div id="recovery-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-slate-900">Recuperar Acceso</h3>
-        <button onclick="closeRecoveryModal()" class="text-slate-400 hover:text-slate-600">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Recuperar Acceso</h3>
+        <button onclick="closeRecoveryModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-      <p class="text-xs text-slate-500 mb-3">Respondé tu pregunta de seguridad para establecer una nueva clave maestra:</p>
-      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 mb-3">
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Respondé tu pregunta de seguridad para establecer una nueva clave maestra:</p>
+      <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 mb-3">
         <p class="text-xs text-slate-400 font-medium">Pregunta configurada:</p>
-        <p id="recovery-question-text" class="text-sm font-semibold text-slate-800 mt-0.5"></p>
+        <p id="recovery-question-text" class="text-sm font-semibold text-slate-800 dark:text-slate-100 mt-0.5"></p>
       </div>
       <form id="recovery-form" class="space-y-3">
         <input type="text" id="recovery-answer-input" required placeholder="Tu respuesta..."
-          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
         <input type="password" id="recovery-new-pass" required minlength="4" placeholder="Nueva contraseña (mín. 4 caracteres)"
-          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
-        <p id="recovery-error" class="hidden text-xs text-red-600 font-medium">La respuesta no coincide.</p>
+          class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
+        <p id="recovery-error" class="hidden text-xs text-red-600 dark:text-red-400 font-medium">La respuesta no coincide.</p>
         <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition">
           Restablecer Contraseña
         </button>
@@ -174,10 +186,10 @@
   <div id="app-container" class="hidden h-full flex flex-col md:flex-row overflow-hidden">
 
     <!-- BARRA LATERAL COMPACTA (SIDEBAR) -->
-    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between shrink-0 z-20">
+    <aside class="w-full md:w-64 bg-white dark:bg-slate-900 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 z-20 transition-colors">
       <div>
-        <div class="p-4 border-b border-slate-100 flex items-center justify-between md:justify-start gap-3">
-          <div class="flex items-center gap-3">
+        <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between md:justify-start gap-3">
+          <div class="flex items-center gap-3 overflow-hidden">
             <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm shrink-0">
               <svg class="w-6 h-6" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="14" y="18" width="36" height="8" rx="4" fill="#FFFFFF"/>
@@ -186,16 +198,22 @@
               </svg>
             </div>
             <div class="overflow-hidden">
-              <h1 id="sidebar-store-name" class="font-bold text-slate-900 text-base truncate">NexoCaja</h1>
-              <span id="sidebar-role-badge" class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700">
+              <h1 id="sidebar-store-name" class="font-bold text-slate-900 dark:text-white text-base truncate">NexoCaja</h1>
+              <span id="sidebar-role-badge" class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400">
                 Modo Dueño
               </span>
             </div>
           </div>
 
-          <button onclick="lockApp()" class="md:hidden p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50" title="Bloquear">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-          </button>
+          <div class="flex items-center gap-1.5 md:hidden">
+            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" title="Cambiar tema">
+              <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+              <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+            </button>
+            <button onclick="lockApp()" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" title="Bloquear">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </button>
+          </div>
         </div>
 
         <nav class="p-2 md:p-3 flex md:flex-col gap-1 overflow-x-auto no-scrollbar">
@@ -206,38 +224,46 @@
           </button>
 
           <button onclick="switchTab('products')" id="nav-products"
-            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <i data-lucide="package" class="w-4 h-4 shrink-0"></i>
             <span>Productos & Stock</span>
-            <span id="low-stock-badge" class="hidden ml-auto px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded-full">0</span>
+            <span id="low-stock-badge" class="hidden ml-auto px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 rounded-full">0</span>
           </button>
 
           <button onclick="switchTab('sales')" id="nav-sales"
-            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <i data-lucide="receipt" class="w-4 h-4 shrink-0"></i>
             <span>Caja y Movimientos</span>
           </button>
 
           <button onclick="switchTab('settings')" id="nav-settings"
-            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+            class="nav-btn owner-only flex-1 md:flex-none flex items-center justify-center md:justify-start gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <i data-lucide="settings" class="w-4 h-4 shrink-0"></i>
             <span>Configuración</span>
           </button>
         </nav>
       </div>
 
-      <div class="hidden md:block p-3 border-t border-slate-100">
+      <div class="hidden md:block p-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+        <button onclick="toggleTheme()"
+          class="w-full flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold transition">
+          <i data-lucide="moon" class="w-3.5 h-3.5 text-slate-500 dark:hidden"></i>
+          <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400 hidden dark:block"></i>
+          <span class="dark:hidden">Modo Oscuro</span>
+          <span class="hidden dark:inline">Modo Claro</span>
+        </button>
+
         <button onclick="lockApp()"
-          class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-sm font-medium transition">
-          <i data-lucide="lock" class="w-4 h-4 text-slate-500"></i>
+          class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium transition">
+          <i data-lucide="lock" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
           <span>Bloquear / Salir</span>
         </button>
-        <p class="text-[11px] text-center text-slate-400 mt-2.5 font-medium">Powered by NexoCaja</p>
+        <p class="text-[11px] text-center text-slate-400 dark:text-slate-500 pt-1 font-medium">Powered by NexoCaja</p>
       </div>
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors">
 
       <!-- ==================== VISTA 1: PUNTO DE VENTA (SPLIT-SCREEN) ==================== -->
       <section id="view-pos" class="flex-1 flex flex-col lg:flex-row h-full overflow-hidden">
@@ -247,10 +273,10 @@
             <div class="relative flex-1">
               <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
               <input type="text" id="pos-search" oninput="renderPosProducts()" placeholder="Buscar producto por nombre o código..."
-                class="w-full pl-10 pr-4 py-2.5 bg-white rounded-xl border border-slate-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 outline-none text-sm shadow-2xs transition">
+                class="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 outline-none text-sm shadow-2xs transition">
             </div>
             <button onclick="openQuickItemModal()"
-              class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 shadow-2xs transition shrink-0">
+              class="px-4 py-2.5 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 shadow-2xs transition shrink-0">
               <i data-lucide="plus-circle" class="w-4 h-4"></i>
               <span>Venta Libre / Varios</span>
             </button>
@@ -261,48 +287,48 @@
           <div id="pos-grid" class="flex-1 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 content-start pr-1"></div>
         </div>
 
-        <div class="w-full lg:w-[35%] max-w-md bg-white border-t lg:border-t-0 lg:border-l border-slate-200 flex flex-col h-[50vh] lg:h-full shrink-0 shadow-lg lg:shadow-none">
-          <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+        <div class="w-full lg:w-[35%] max-w-md bg-white dark:bg-slate-900 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-800 flex flex-col h-[50vh] lg:h-full shrink-0 shadow-lg lg:shadow-none transition-colors">
+          <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900">
             <div class="flex items-center gap-2">
-              <i data-lucide="shopping-cart" class="w-4 h-4 text-blue-600"></i>
-              <h2 class="font-bold text-slate-900 text-sm">Ticket de Venta</h2>
+              <i data-lucide="shopping-cart" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+              <h2 class="font-bold text-slate-900 dark:text-white text-sm">Ticket de Venta</h2>
             </div>
-            <button onclick="clearCart()" class="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1">
+            <button onclick="clearCart()" class="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 flex items-center gap-1">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Vaciar
             </button>
           </div>
 
-          <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-2.5 bg-amber-50/20"></div>
+          <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-2.5 bg-amber-50/20 dark:bg-slate-950/50"></div>
 
-          <div class="p-4 bg-white border-t border-slate-200 space-y-3 shrink-0">
+          <div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 space-y-3 shrink-0">
             <div class="flex items-center justify-between gap-2">
-              <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1">
                 <i data-lucide="tag" class="w-3.5 h-3.5"></i> Descuento:
               </span>
               <div class="flex items-center gap-1">
                 <input type="number" id="cart-discount" value="0" min="0" oninput="updateCartTotals()"
-                  class="w-20 px-2.5 py-1 text-right text-sm font-semibold border border-slate-200 rounded-lg outline-none focus:border-blue-600">
+                  class="w-20 px-2.5 py-1 text-right text-sm font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg outline-none focus:border-blue-600">
                 <select id="cart-discount-type" onchange="updateCartTotals()"
-                  class="px-2 py-1 text-xs font-semibold border border-slate-200 rounded-lg bg-slate-50 outline-none">
+                  class="px-2 py-1 text-xs font-semibold border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none">
                   <option value="$">$</option>
                   <option value="%">%</option>
                 </select>
               </div>
             </div>
 
-            <div class="pt-2 border-t border-slate-100 space-y-1">
-              <div class="flex justify-between text-xs text-slate-500">
+            <div class="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1">
+              <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
                 <span>Subtotal</span>
                 <span id="cart-subtotal">$0</span>
               </div>
               <div class="flex justify-between items-baseline">
-                <span class="text-sm font-bold text-slate-900">TOTAL:</span>
-                <span id="cart-total" class="text-2xl font-extrabold text-emerald-600">$0</span>
+                <span class="text-sm font-bold text-slate-900 dark:text-white">TOTAL:</span>
+                <span id="cart-total" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">$0</span>
               </div>
             </div>
 
             <button id="btn-checkout" onclick="openCheckoutModal()" disabled
-              class="w-full py-3.5 px-4 rounded-xl font-bold text-base text-white bg-slate-300 disabled:cursor-not-allowed transition flex items-center justify-center gap-2 shadow-sm">
+              class="w-full py-3.5 px-4 rounded-xl font-bold text-base text-white bg-slate-300 dark:bg-slate-800 disabled:cursor-not-allowed transition flex items-center justify-center gap-2 shadow-sm">
               <i data-lucide="check-circle-2" class="w-5 h-5"></i>
               <span id="btn-checkout-text">COBRAR $0</span>
             </button>
@@ -314,12 +340,12 @@
       <section id="view-products" class="hidden flex-1 flex flex-col h-full overflow-hidden p-4 md:p-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 shrink-0">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Productos & Inventario</h2>
-            <p class="text-xs text-slate-500">Administrá precios, costos y reposición de mercadería.</p>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Productos & Inventario</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Administrá precios, costos y reposición de mercadería.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button onclick="copyLowStockList()"
-              class="px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+              class="px-3.5 py-2 bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
               <i data-lucide="clipboard-list" class="w-4 h-4"></i>
               <span>Copiar Faltantes</span>
             </button>
@@ -335,19 +361,19 @@
           <div class="relative flex-1">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
             <input type="text" id="inv-search" oninput="renderInventoryTable()" placeholder="Filtrar por nombre, código o categoría..."
-              class="w-full pl-10 pr-4 py-2 bg-white rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
+              class="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
           </div>
           <select id="inv-filter-stock" onchange="renderInventoryTable()"
-            class="px-3.5 py-2 bg-white rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
+            class="px-3.5 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
             <option value="all">Todos los productos</option>
             <option value="low">Stock Bajo / Agotados</option>
           </select>
         </div>
 
-        <div class="flex-1 bg-white rounded-2xl border border-slate-200 overflow-auto shadow-2xs">
+        <div class="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-auto shadow-2xs">
           <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
-              <tr class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+              <tr class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 <th class="py-3 px-4">Producto</th>
                 <th class="py-3 px-4">Categoría</th>
                 <th class="py-3 px-4 text-right">Costo</th>
@@ -356,7 +382,7 @@
                 <th class="py-3 px-4 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody id="inventory-tbody" class="divide-y divide-slate-100 text-sm"></tbody>
+            <tbody id="inventory-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm"></tbody>
           </table>
         </div>
       </section>
@@ -365,38 +391,38 @@
       <section id="view-sales" class="hidden flex-1 flex flex-col h-full overflow-hidden p-4 md:p-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 shrink-0">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Caja y Movimientos</h2>
-            <p class="text-xs text-slate-500">Resumen de ventas diarias, ganancias netas y medios de pago.</p>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Caja y Movimientos</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Resumen de ventas diarias, ganancias netas y medios de pago.</p>
           </div>
           <button onclick="exportSalesCSV()"
-            class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition self-start">
+            class="px-3.5 py-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition self-start">
             <i data-lucide="download" class="w-4 h-4"></i>
             <span>Exportar Ventas (CSV)</span>
           </button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 shrink-0">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
-            <p class="text-xs font-medium text-slate-500">Ventas de Hoy</p>
-            <p id="kpi-today-sales" class="text-2xl font-extrabold text-slate-900 mt-1">$0</p>
-            <p id="kpi-today-count" class="text-xs text-slate-400 mt-1">0 operaciones</p>
+          <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs">
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Ventas de Hoy</p>
+            <p id="kpi-today-sales" class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">$0</p>
+            <p id="kpi-today-count" class="text-xs text-slate-400 dark:text-slate-500 mt-1">0 operaciones</p>
           </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
-            <p class="text-xs font-medium text-slate-500">Ganancia Neta Hoy</p>
-            <p id="kpi-today-profit" class="text-2xl font-extrabold text-emerald-600 mt-1">$0</p>
-            <p class="text-xs text-slate-400 mt-1">Descontando costos de mercadería</p>
+          <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs">
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Ganancia Neta Hoy</p>
+            <p id="kpi-today-profit" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">$0</p>
+            <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Descontando costos de mercadería</p>
           </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
-            <p class="text-xs font-medium text-slate-500">Total Histórico Acumulado</p>
-            <p id="kpi-total-sales" class="text-2xl font-extrabold text-blue-600 mt-1">$0</p>
-            <p id="kpi-total-count" class="text-xs text-slate-400 mt-1">0 tickets registrados</p>
+          <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs">
+            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Total Histórico Acumulado</p>
+            <p id="kpi-total-sales" class="text-2xl font-extrabold text-blue-600 dark:text-blue-400 mt-1">$0</p>
+            <p id="kpi-total-count" class="text-xs text-slate-400 dark:text-slate-500 mt-1">0 tickets registrados</p>
           </div>
         </div>
 
-        <div class="flex-1 bg-white rounded-2xl border border-slate-200 overflow-auto shadow-2xs">
+        <div class="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-auto shadow-2xs">
           <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-50 border-b border-slate-200 sticky top-0">
-              <tr class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 sticky top-0">
+              <tr class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 <th class="py-3 px-4">Fecha / Hora</th>
                 <th class="py-3 px-4">Detalle</th>
                 <th class="py-3 px-4">Medio de Pago</th>
@@ -404,7 +430,7 @@
                 <th class="py-3 px-4 text-right">Acción</th>
               </tr>
             </thead>
-            <tbody id="sales-tbody" class="divide-y divide-slate-100 text-sm"></tbody>
+            <tbody id="sales-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm"></tbody>
           </table>
         </div>
       </section>
@@ -413,22 +439,39 @@
       <section id="view-settings" class="hidden flex-1 overflow-y-auto p-4 md:p-6">
         <div class="max-w-2xl space-y-6">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Configuración del Sistema</h2>
-            <p class="text-xs text-slate-500">Personalizá tu comercio, contraseñas y copias de seguridad.</p>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Configuración del Sistema</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Personalizá tu comercio, apariencia, contraseñas y copias de seguridad.</p>
           </div>
 
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-4">
-            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <i data-lucide="store" class="w-4 h-4 text-blue-600"></i> Identidad del Comercio
+          <!-- Apariencia -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
+            <div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
+                <i data-lucide="palette" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Apariencia Visual
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Alterná entre el modo claro de día y el modo oscuro para trabajar de noche.</p>
+            </div>
+            <button onclick="toggleTheme()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold rounded-xl flex items-center gap-2 shrink-0 transition">
+              <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+              <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+              <span class="dark:hidden">Activar Modo Oscuro</span>
+              <span class="hidden dark:inline">Activar Modo Claro</span>
+            </button>
+          </div>
+
+          <!-- Datos del Comercio -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
+              <i data-lucide="store" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Identidad del Comercio
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Nombre del Local</label>
-                <input type="text" id="cfg-store-name" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Nombre del Local</label>
+                <input type="text" id="cfg-store-name" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
               </div>
               <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Rubro / Subtítulo</label>
-                <input type="text" id="cfg-store-sub" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Rubro / Subtítulo</label>
+                <input type="text" id="cfg-store-sub" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
               </div>
             </div>
             <button onclick="saveStoreSettings()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl transition">
@@ -436,42 +479,44 @@
             </button>
           </div>
 
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-4">
-            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> Seguridad y Roles
+          <!-- Seguridad y Contraseñas -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Seguridad y Roles
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Nueva Contraseña de Dueño</label>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Nueva Contraseña de Dueño</label>
                 <input type="password" id="cfg-owner-pass" placeholder="Dejar vacío para mantener actual"
-                  class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
               </div>
               <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Contraseña de Cajero (Empleados)</label>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Contraseña de Cajero (Empleados)</label>
                 <input type="text" id="cfg-cashier-pass" placeholder="Opcional (ej: cajero123)"
-                  class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-600">
-                <p class="text-[11px] text-slate-400 mt-1">El cajero solo puede vender; no ve ganancias ni edita precios.</p>
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
+                <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">El cajero solo puede vender; no ve ganancias ni edita precios.</p>
               </div>
             </div>
-            <button onclick="saveSecuritySettings()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition">
+            <button onclick="saveSecuritySettings()" class="px-4 py-2 bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 dark:hover:bg-slate-600 text-white text-xs font-semibold rounded-xl transition">
               Actualizar Contraseñas
             </button>
           </div>
 
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-4">
-            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <i data-lucide="database" class="w-4 h-4 text-blue-600"></i> Copias de Seguridad (Respaldo)
+          <!-- Respaldo y Mantenimiento -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i> Copias de Seguridad (Respaldo)
             </h3>
-            <p class="text-xs text-slate-500">Descargá un archivo con todos tus productos y ventas para guardarlo en tu WhatsApp o computadora.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Descargá un archivo con todos tus productos y ventas para guardarlo en tu WhatsApp o computadora.</p>
             <div class="flex flex-wrap gap-2.5">
               <button onclick="exportBackupJSON()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 transition">
                 <i data-lucide="download" class="w-4 h-4"></i> Exportar Respaldo (.json)
               </button>
-              <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-xl flex items-center gap-1.5 cursor-pointer transition">
+              <label class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl flex items-center gap-1.5 cursor-pointer transition">
                 <i data-lucide="upload" class="w-4 h-4"></i> Importar Respaldo
                 <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden">
               </label>
-              <button onclick="clearDemoProducts()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition">
+              <button onclick="clearDemoProducts()" class="px-4 py-2 bg-red-50 dark:bg-red-950/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/60 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition">
                 <i data-lucide="trash-2" class="w-4 h-4"></i> Vaciar Catálogo
               </button>
             </div>
@@ -484,46 +529,46 @@
 
   <!-- ==================== MODALES OPERATIVOS ==================== -->
 
-  <div id="checkout-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+  <div id="checkout-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-bold text-slate-900">Confirmar Cobro</h3>
-        <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Confirmar Cobro</h3>
+        <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center mb-4">
-        <p class="text-xs font-semibold text-emerald-700 uppercase">Total a Cobrar</p>
-        <p id="modal-checkout-total" class="text-3xl font-extrabold text-emerald-700 mt-1">$0</p>
+      <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 rounded-xl p-4 text-center mb-4">
+        <p class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase">Total a Cobrar</p>
+        <p id="modal-checkout-total" class="text-3xl font-extrabold text-emerald-700 dark:text-emerald-400 mt-1">$0</p>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Medio de Pago</label>
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase mb-2">Medio de Pago</label>
           <div class="grid grid-cols-2 gap-2">
-            <button type="button" onclick="selectPaymentMethod('Efectivo')" class="pay-method-btn active py-2.5 px-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-blue-700 font-semibold text-sm flex items-center justify-center gap-2">
+            <button type="button" onclick="selectPaymentMethod('Efectivo')" class="pay-method-btn active py-2.5 px-3 rounded-xl border-2 border-blue-600 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 font-semibold text-sm flex items-center justify-center gap-2">
               <i data-lucide="banknote" class="w-4 h-4"></i> Efectivo
             </button>
-            <button type="button" onclick="selectPaymentMethod('Transferencia / QR')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm flex items-center justify-center gap-2">
+            <button type="button" onclick="selectPaymentMethod('Transferencia / QR')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm flex items-center justify-center gap-2">
               <i data-lucide="qr-code" class="w-4 h-4"></i> Transf. / QR
             </button>
-            <button type="button" onclick="selectPaymentMethod('Débito')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm flex items-center justify-center gap-2">
+            <button type="button" onclick="selectPaymentMethod('Débito')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm flex items-center justify-center gap-2">
               <i data-lucide="credit-card" class="w-4 h-4"></i> Débito
             </button>
-            <button type="button" onclick="selectPaymentMethod('Crédito')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm flex items-center justify-center gap-2">
+            <button type="button" onclick="selectPaymentMethod('Crédito')" class="pay-method-btn py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm flex items-center justify-center gap-2">
               <i data-lucide="wallet" class="w-4 h-4"></i> Crédito
             </button>
           </div>
         </div>
 
-        <div id="cash-change-box" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+        <div id="cash-change-box" class="bg-slate-50 dark:bg-slate-800/70 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
           <div class="flex items-center justify-between">
-            <label class="text-xs font-semibold text-slate-600">Abona con ($):</label>
+            <label class="text-xs font-semibold text-slate-600 dark:text-slate-300">Abona con (\$):</label>
             <input type="number" id="cash-received" oninput="calculateChange()" placeholder="Ej: 10000"
-              class="w-32 px-3 py-1.5 text-right font-bold text-sm bg-white border border-slate-300 rounded-lg outline-none focus:border-blue-600">
+              class="w-32 px-3 py-1.5 text-right font-bold text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 rounded-lg outline-none focus:border-blue-600">
           </div>
-          <div class="flex items-center justify-between pt-1 border-t border-slate-200">
-            <span class="text-xs font-semibold text-slate-600">Vuelto a entregar:</span>
-            <span id="cash-change-amount" class="text-base font-extrabold text-blue-600">$0</span>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-200 dark:border-slate-700">
+            <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Vuelto a entregar:</span>
+            <span id="cash-change-amount" class="text-base font-extrabold text-blue-600 dark:text-blue-400">$0</span>
           </div>
         </div>
 
@@ -535,22 +580,22 @@
     </div>
   </div>
 
-  <div id="quick-item-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200">
+  <div id="quick-item-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-bold text-slate-900">Agregar Venta Libre</h3>
-        <button onclick="closeQuickItemModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Agregar Venta Libre</h3>
+        <button onclick="closeQuickItemModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <form id="quick-item-form" class="space-y-3">
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Descripción</label>
+          <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Descripción</label>
           <input type="text" id="quick-desc" value="Varios / Producto suelto" required
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Monto ($)</label>
+          <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Monto (\$)</label>
           <input type="number" id="quick-price" required min="1" step="any" placeholder="Ej: 1500"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-base font-bold outline-none focus:border-blue-600">
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-base font-bold outline-none focus:border-blue-600">
         </div>
         <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition">
           Sumar al Ticket
@@ -559,24 +604,24 @@
     </div>
   </div>
 
-  <div id="product-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+  <div id="product-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex justify-between items-center mb-4">
-        <h3 id="product-modal-title" class="text-lg font-bold text-slate-900">Nuevo Producto</h3>
-        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <h3 id="product-modal-title" class="text-lg font-bold text-slate-900 dark:text-white">Nuevo Producto</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <form id="product-form" class="space-y-3">
         <input type="hidden" id="prod-id">
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Nombre del Producto</label>
+          <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Nombre del Producto</label>
           <input type="text" id="prod-name" required placeholder="Ej: Yerba Mate 500g"
-            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Categoría</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Categoría</label>
             <input type="text" id="prod-category" required placeholder="Ej: Almacén" list="cat-suggestions"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
             <datalist id="cat-suggestions">
               <option value="Bebidas">
               <option value="Almacén">
@@ -587,26 +632,26 @@
             </datalist>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Código (Opcional)</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Código (Opcional)</label>
             <input type="text" id="prod-code" placeholder="Ej: 7791234"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
           </div>
         </div>
         <div class="grid grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Costo ($)</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Costo (\$)</label>
             <input type="number" id="prod-cost" min="0" step="any" value="0"
-              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Precio Venta ($)</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Precio Venta (\$)</label>
             <input type="number" id="prod-price" required min="1" step="any"
-              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-bold outline-none focus:border-blue-600">
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-bold outline-none focus:border-blue-600">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Stock Actual</label>
+            <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Stock Actual</label>
             <input type="number" id="prod-stock" required min="0" value="10"
-              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-blue-600">
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm outline-none focus:border-blue-600">
           </div>
         </div>
         <div class="pt-2">
@@ -618,13 +663,14 @@
     </div>
   </div>
 
-  <div id="toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 transition-all">
+  <div id="toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 px-4 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 transition-all">
     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
     <span id="toast-msg">Operación exitosa</span>
   </div>
 
   <script>
     const STORAGE_KEY = 'nexocaja_pos_data_v1';
+    const THEME_KEY = 'nexocaja_theme_v1';
 
     const DEFAULT_PRODUCTS = [
       { id: '1', name: 'Coca Cola Original 1.5L', category: 'Bebidas', code: '779123401', cost: 1300, price: 1900, stock: 15 },
@@ -652,6 +698,23 @@
     let selectedCategory = 'Todos';
     let selectedPaymentMethod = 'Efectivo';
 
+    // ==================== GESTIÓN DE TEMA (CLARO / OSCURO) ====================
+    function applySavedTheme() {
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      if (window.lucide) lucide.createIcons();
+    }
+
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -669,6 +732,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      applySavedTheme();
       loadData();
       if (window.lucide) lucide.createIcons();
 
@@ -700,682 +764,4 @@
     });
 
     function showLoginScreen() {
-      document.getElementById('app-container').classList.add('hidden');
-      document.getElementById('login-screen').classList.remove('hidden');
-      document.getElementById('login-store-title').textContent = appData.storeName;
-      document.getElementById('login-password').value = '';
-      document.getElementById('login-error').classList.add('hidden');
-      setTimeout(() => document.getElementById('login-password').focus(), 100);
-    }
-
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const pass = document.getElementById('login-password').value;
-      if (pass === appData.ownerPassword) {
-        document.getElementById('login-screen').classList.add('hidden');
-        enterApp('owner');
-      } else if (appData.cashierPassword && pass === appData.cashierPassword) {
-        document.getElementById('login-screen').classList.add('hidden');
-        enterApp('cashier');
-      } else {
-        document.getElementById('login-error').classList.remove('hidden');
-      }
-    });
-
-    function lockApp() {
-      currentRole = null;
-      showLoginScreen();
-    }
-
-    function openRecoveryModal() {
-      document.getElementById('recovery-question-text').textContent = appData.securityQuestion;
-      document.getElementById('recovery-answer-input').value = '';
-      document.getElementById('recovery-new-pass').value = '';
-      document.getElementById('recovery-error').classList.add('hidden');
-      document.getElementById('recovery-modal').classList.remove('hidden');
-    }
-
-    function closeRecoveryModal() {
-      document.getElementById('recovery-modal').classList.add('hidden');
-    }
-
-    document.getElementById('recovery-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const ans = document.getElementById('recovery-answer-input').value.trim().toLowerCase();
-      const newPass = document.getElementById('recovery-new-pass').value;
-      if (ans === appData.securityAnswer) {
-        appData.ownerPassword = newPass;
-        saveData();
-        closeRecoveryModal();
-        document.getElementById('login-screen').classList.add('hidden');
-        enterApp('owner');
-        showToast('Contraseña restablecida correctamente');
-      } else {
-        document.getElementById('recovery-error').classList.remove('hidden');
-      }
-    });
-
-    function enterApp(role) {
-      currentRole = role;
-      document.getElementById('app-container').classList.remove('hidden');
-      document.getElementById('sidebar-store-name').textContent = appData.storeName;
-
-      const badge = document.getElementById('sidebar-role-badge');
-      const ownerEls = document.querySelectorAll('.owner-only');
-
-      if (role === 'owner') {
-        badge.textContent = 'Modo Dueño';
-        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700';
-        ownerEls.forEach(el => el.classList.remove('hidden'));
-      } else {
-        badge.textContent = 'Modo Cajero';
-        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-700';
-        ownerEls.forEach(el => el.classList.add('hidden'));
-      }
-
-      switchTab('pos');
-      updateLowStockBadge();
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function switchTab(tab) {
-      if (currentRole === 'cashier' && tab !== 'pos') return;
-
-      ['pos', 'products', 'sales', 'settings'].forEach(t => {
-        document.getElementById(`view-${t}`).classList.add('hidden');
-        const btn = document.getElementById(`nav-${t}`);
-        if (btn) {
-          btn.classList.remove('bg-blue-600', 'text-white', 'font-semibold');
-          btn.classList.add('text-slate-600', 'hover:bg-slate-100', 'font-medium');
-        }
-      });
-
-      document.getElementById(`view-${tab}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`nav-${tab}`);
-      if (activeBtn) {
-        activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100', 'font-medium');
-        activeBtn.classList.add('bg-blue-600', 'text-white', 'font-semibold');
-      }
-
-      if (tab === 'pos') {
-        renderPosCategories();
-        renderPosProducts();
-        renderCart();
-      } else if (tab === 'products') {
-        renderInventoryTable();
-      } else if (tab === 'sales') {
-        renderSalesView();
-      } else if (tab === 'settings') {
-        loadSettingsForm();
-      }
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function renderPosCategories() {
-      const cats = ['Todos', ...new Set(appData.products.map(p => p.category))];
-      const container = document.getElementById('pos-categories');
-      container.innerHTML = cats.map(c => `
-        <button onclick="selectCategory('${c}')"
-          class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
-            selectedCategory === c
-              ? 'bg-slate-900 text-white shadow-2xs'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-          }">
-          ${c}
-        </button>
-      `).join('');
-    }
-
-    function selectCategory(cat) {
-      selectedCategory = cat;
-      renderPosCategories();
-      renderPosProducts();
-    }
-
-    function renderPosProducts() {
-      const query = document.getElementById('pos-search').value.toLowerCase().trim();
-      const filtered = appData.products.filter(p => {
-        const matchCat = selectedCategory === 'Todos' || p.category === selectedCategory;
-        const matchQuery = p.name.toLowerCase().includes(query) || (p.code && p.code.toLowerCase().includes(query));
-        return matchCat && matchQuery;
-      });
-
-      const grid = document.getElementById('pos-grid');
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-12 text-slate-400">
-            <p class="text-sm font-medium">No se encontraron productos</p>
-          </div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(p => {
-        const outOfStock = p.stock <= 0;
-        const lowStock = p.stock > 0 && p.stock <= 5;
-        let badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">Stock: ${p.stock}</span>`;
-        if (outOfStock) badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-600">Agotado</span>`;
-        else if (lowStock) badgeHtml = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700">Bajo: ${p.stock}</span>`;
-
-        return `
-          <div onclick="${outOfStock ? '' : `addToCart('${p.id}')`}"
-            class="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-col justify-between transition ${
-              outOfStock ? 'opacity-60 cursor-not-allowed' : 'hover:border-blue-400 hover:shadow-md cursor-pointer active:scale-[0.98]'
-            }">
-            <div>
-              <div class="flex items-center justify-between gap-1 mb-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 truncate">${p.category}</span>
-                ${badgeHtml}
-              </div>
-              <h3 class="font-bold text-slate-800 text-sm leading-snug line-clamp-2">${p.name}</h3>
-              ${p.code ? `<p class="text-[11px] text-slate-400 mt-1">Cód: ${p.code}</p>` : ''}
-            </div>
-            <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-50">
-              <span class="text-lg font-extrabold text-slate-900">$${formatMoney(p.price)}</span>
-              <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-base">+</span>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function addToCart(productId) {
-      const prod = appData.products.find(p => p.id === productId);
-      if (!prod || prod.stock <= 0) return;
-
-      const existing = cart.find(item => item.id === productId);
-      if (existing) {
-        if (existing.qty < prod.stock) {
-          existing.qty++;
-        } else {
-          showToast('No hay más stock disponible');
-          return;
-        }
-      } else {
-        cart.push({ id: prod.id, name: prod.name, price: prod.price, cost: prod.cost || 0, qty: 1, isCustom: false });
-      }
-      renderCart();
-    }
-
-    function openQuickItemModal() {
-      document.getElementById('quick-desc').value = 'Varios / Producto suelto';
-      document.getElementById('quick-price').value = '';
-      document.getElementById('quick-item-modal').classList.remove('hidden');
-      setTimeout(() => document.getElementById('quick-price').focus(), 100);
-    }
-
-    function closeQuickItemModal() {
-      document.getElementById('quick-item-modal').classList.add('hidden');
-    }
-
-    document.getElementById('quick-item-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const desc = document.getElementById('quick-desc').value.trim();
-      const price = parseFloat(document.getElementById('quick-price').value);
-      if (!desc || isNaN(price) || price <= 0) return;
-
-      cart.push({
-        id: 'custom-' + Date.now(),
-        name: desc,
-        price: price,
-        cost: 0,
-        qty: 1,
-        isCustom: true
-      });
-      closeQuickItemModal();
-      renderCart();
-    });
-
-    function updateCartQty(index, delta) {
-      const item = cart[index];
-      if (!item) return;
-      if (!item.isCustom && delta > 0) {
-        const prod = appData.products.find(p => p.id === item.id);
-        if (prod && item.qty + delta > prod.stock) {
-          showToast('Stock máximo alcanzado');
-          return;
-        }
-      }
-      item.qty += delta;
-      if (item.qty <= 0) cart.splice(index, 1);
-      renderCart();
-    }
-
-    function clearCart() {
-      cart = [];
-      document.getElementById('cart-discount').value = 0;
-      renderCart();
-    }
-
-    function renderCart() {
-      const container = document.getElementById('cart-items');
-      if (cart.length === 0) {
-        container.innerHTML = `
-          <div class="h-full flex flex-col items-center justify-center text-center text-slate-400 py-8">
-            <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2">
-              <i data-lucide="receipt" class="w-6 h-6 text-slate-300"></i>
-            </div>
-            <p class="text-sm font-semibold text-slate-500">El ticket está vacío</p>
-            <p class="text-xs max-w-[200px] mt-1">Hacé clic en cualquier producto del catálogo para sumarlo a la venta.</p>
-          </div>`;
-        if (window.lucide) lucide.createIcons();
-        updateCartTotals();
-        return;
-      }
-
-      container.innerHTML = cart.map((item, idx) => `
-        <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-2 shadow-2xs">
-          <div class="min-w-0 flex-1">
-            <p class="text-xs font-bold text-slate-800 truncate">${item.name}</p>
-            <p class="text-xs text-slate-500">$${formatMoney(item.price)} c/u</p>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="updateCartQty(${idx}, -1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">-</button>
-            <span class="w-6 text-center text-xs font-bold">${item.qty}</span>
-            <button onclick="updateCartQty(${idx}, 1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">+</button>
-          </div>
-          <div class="text-right min-w-[65px]">
-            <p class="text-xs font-extrabold text-slate-900">$${formatMoney(item.price * item.qty)}</p>
-          </div>
-        </div>
-      `).join('');
-
-      updateCartTotals();
-    }
-
-    function getCartCalculation() {
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const discVal = parseFloat(document.getElementById('cart-discount').value) || 0;
-      const discType = document.getElementById('cart-discount-type').value;
-
-      let discountAmount = discType === '%' ? (subtotal * (discVal / 100)) : discVal;
-      if (discountAmount > subtotal) discountAmount = subtotal;
-      const total = Math.max(0, subtotal - discountAmount);
-      return { subtotal, discountAmount, total };
-    }
-
-    function updateCartTotals() {
-      const { subtotal, total } = getCartCalculation();
-      document.getElementById('cart-subtotal').textContent = `$${formatMoney(subtotal)}`;
-      document.getElementById('cart-total').textContent = `$${formatMoney(total)}`;
-
-      const btn = document.getElementById('btn-checkout');
-      const btnText = document.getElementById('btn-checkout-text');
-      btnText.textContent = `COBRAR $${formatMoney(total)}`;
-
-      if (cart.length > 0 && total >= 0) {
-        btn.disabled = false;
-        btn.classList.remove('bg-slate-300');
-        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-      } else {
-        btn.disabled = true;
-        btn.classList.add('bg-slate-300');
-        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-      }
-    }
-
-    function openCheckoutModal() {
-      const { total } = getCartCalculation();
-      document.getElementById('modal-checkout-total').textContent = `$${formatMoney(total)}`;
-      document.getElementById('cash-received').value = '';
-      document.getElementById('cash-change-amount').textContent = '$0';
-      selectPaymentMethod('Efectivo');
-      document.getElementById('checkout-modal').classList.remove('hidden');
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function closeCheckoutModal() {
-      document.getElementById('checkout-modal').classList.add('hidden');
-    }
-
-    function selectPaymentMethod(method) {
-      selectedPaymentMethod = method;
-      document.querySelectorAll('.pay-method-btn').forEach(btn => {
-        if (btn.textContent.trim().includes(method.split(' ')[0])) {
-          btn.classList.add('border-2', 'border-blue-600', 'bg-blue-50', 'text-blue-700');
-          btn.classList.remove('border', 'border-slate-200', 'text-slate-700');
-        } else {
-          btn.classList.remove('border-2', 'border-blue-600', 'bg-blue-50', 'text-blue-700');
-          btn.classList.add('border', 'border-slate-200', 'text-slate-700');
-        }
-      });
-
-      const changeBox = document.getElementById('cash-change-box');
-      if (method === 'Efectivo') changeBox.classList.remove('hidden');
-      else changeBox.classList.add('hidden');
-    }
-
-    function calculateChange() {
-      const { total } = getCartCalculation();
-      const received = parseFloat(document.getElementById('cash-received').value) || 0;
-      const change = Math.max(0, received - total);
-      document.getElementById('cash-change-amount').textContent = `$${formatMoney(change)}`;
-    }
-
-    function finalizeSale() {
-      if (cart.length === 0) return;
-      const { subtotal, discountAmount, total } = getCartCalculation();
-
-      let totalCost = 0;
-      cart.forEach(item => {
-        totalCost += (item.cost || 0) * item.qty;
-        if (!item.isCustom) {
-          const prod = appData.products.find(p => p.id === item.id);
-          if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
-        }
-      });
-
-      const saleRecord = {
-        id: 'V-' + Date.now(),
-        date: new Date().toISOString(),
-        items: [...cart],
-        subtotal,
-        discount: discountAmount,
-        total,
-        profit: total - totalCost,
-        paymentMethod: selectedPaymentMethod
-      };
-
-      appData.sales.unshift(saleRecord);
-      saveData();
-
-      closeCheckoutModal();
-      clearCart();
-      renderPosProducts();
-      showToast(`Venta registrada: $${formatMoney(total)}`);
-    }
-
-    function updateLowStockBadge() {
-      const lowCount = appData.products.filter(p => p.stock <= 5).length;
-      const badge = document.getElementById('low-stock-badge');
-      if (lowCount > 0) {
-        badge.textContent = lowCount;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
-    }
-
-    function renderInventoryTable() {
-      const q = document.getElementById('inv-search').value.toLowerCase().trim();
-      const stockFilter = document.getElementById('inv-filter-stock').value;
-
-      const filtered = appData.products.filter(p => {
-        const matchQ = p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.code && p.code.includes(q));
-        const matchStock = stockFilter === 'all' || p.stock <= 5;
-        return matchQ && matchStock;
-      });
-
-      const tbody = document.getElementById('inventory-tbody');
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-sm">No hay productos para mostrar</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(p => `
-        <tr class="hover:bg-slate-50/80 transition">
-          <td class="py-3 px-4">
-            <p class="font-bold text-slate-900">${p.name}</p>
-            ${p.code ? `<p class="text-[11px] text-slate-400">Cód: ${p.code}</p>` : ''}
-          </td>
-          <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">${p.category}</span></td>
-          <td class="py-3 px-4 text-right text-slate-500">$${formatMoney(p.cost || 0)}</td>
-          <td class="py-3 px-4 text-right font-bold text-slate-900">$${formatMoney(p.price)}</td>
-          <td class="py-3 px-4 text-center">
-            <div class="inline-flex items-center gap-1.5">
-              <button onclick="quickAdjustStock('${p.id}', -1)" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-xs">-</button>
-              <span class="w-8 text-center font-bold ${p.stock <= 5 ? 'text-amber-600' : 'text-slate-800'}">${p.stock}</span>
-              <button onclick="quickAdjustStock('${p.id}', 1)" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-xs">+</button>
-            </div>
-          </td>
-          <td class="py-3 px-4 text-right space-x-1">
-            <button onclick="openProductModal('${p.id}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg" title="Editar">
-              <i data-lucide="edit-2" class="w-4 h-4"></i>
-            </button>
-            <button onclick="deleteProduct('${p.id}')" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg" title="Eliminar">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('');
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function quickAdjustStock(id, delta) {
-      const prod = appData.products.find(p => p.id === id);
-      if (!prod) return;
-      prod.stock = Math.max(0, prod.stock + delta);
-      saveData();
-      renderInventoryTable();
-    }
-
-    function openProductModal(id = null) {
-      document.getElementById('product-form').reset();
-      if (id) {
-        const prod = appData.products.find(p => p.id === id);
-        if (!prod) return;
-        document.getElementById('product-modal-title').textContent = 'Editar Producto';
-        document.getElementById('prod-id').value = prod.id;
-        document.getElementById('prod-name').value = prod.name;
-        document.getElementById('prod-category').value = prod.category;
-        document.getElementById('prod-code').value = prod.code || '';
-        document.getElementById('prod-cost').value = prod.cost || 0;
-        document.getElementById('prod-price').value = prod.price;
-        document.getElementById('prod-stock').value = prod.stock;
-      } else {
-        document.getElementById('product-modal-title').textContent = 'Nuevo Producto';
-        document.getElementById('prod-id').value = '';
-      }
-      document.getElementById('product-modal').classList.remove('hidden');
-    }
-
-    function closeProductModal() {
-      document.getElementById('product-modal').classList.add('hidden');
-    }
-
-    document.getElementById('product-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const id = document.getElementById('prod-id').value;
-      const productObj = {
-        id: id || 'P-' + Date.now(),
-        name: document.getElementById('prod-name').value.trim(),
-        category: document.getElementById('prod-category').value.trim(),
-        code: document.getElementById('prod-code').value.trim(),
-        cost: parseFloat(document.getElementById('prod-cost').value) || 0,
-        price: parseFloat(document.getElementById('prod-price').value),
-        stock: parseInt(document.getElementById('prod-stock').value) || 0
-      };
-
-      if (id) {
-        const idx = appData.products.findIndex(p => p.id === id);
-        if (idx !== -1) appData.products[idx] = productObj;
-      } else {
-        appData.products.unshift(productObj);
-      }
-
-      saveData();
-      closeProductModal();
-      renderInventoryTable();
-      showToast('Producto guardado');
-    });
-
-    function deleteProduct(id) {
-      if (!confirm('¿Seguro que querés eliminar este producto?')) return;
-      appData.products = appData.products.filter(p => p.id !== id);
-      saveData();
-      renderInventoryTable();
-      showToast('Producto eliminado');
-    }
-
-    function copyLowStockList() {
-      const low = appData.products.filter(p => p.stock <= 5);
-      if (low.length === 0) {
-        showToast('No tenés productos con stock bajo');
-        return;
-      }
-      const text = '📋 *Pedido de Reposición - ' + appData.storeName + '*\n' +
-        low.map(p => '• ' + p.name + ' (Quedan: ' + p.stock + ')').join('\n');
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Lista de faltantes copiada para WhatsApp');
-      });
-    }
-
-    function renderSalesView() {
-      const todayStr = new Date().toDateString();
-      const todaySales = appData.sales.filter(s => new Date(s.date).toDateString() === todayStr);
-
-      const todayTotal = todaySales.reduce((acc, s) => acc + s.total, 0);
-      const todayProfit = todaySales.reduce((acc, s) => acc + (s.profit || 0), 0);
-      const histTotal = appData.sales.reduce((acc, s) => acc + s.total, 0);
-
-      document.getElementById('kpi-today-sales').textContent = `$${formatMoney(todayTotal)}`;
-      document.getElementById('kpi-today-count').textContent = `${todaySales.length} operaciones`;
-      document.getElementById('kpi-today-profit').textContent = `$${formatMoney(todayProfit)}`;
-      document.getElementById('kpi-total-sales').textContent = `$${formatMoney(histTotal)}`;
-      document.getElementById('kpi-total-count').textContent = `${appData.sales.length} tickets registrados`;
-
-      const tbody = document.getElementById('sales-tbody');
-      if (appData.sales.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 text-sm">Todavía no hay ventas registradas</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = appData.sales.map(s => {
-        const d = new Date(s.date);
-        const dateFormatted = `${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
-        const summary = s.items.map(i => `${i.qty}x ${i.name}`).join(', ');
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="py-3 px-4 text-xs text-slate-500 whitespace-nowrap">${dateFormatted}</td>
-            <td class="py-3 px-4 text-xs font-medium text-slate-800 max-w-xs truncate" title="${summary}">${summary}</td>
-            <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold">${s.paymentMethod}</span></td>
-            <td class="py-3 px-4 text-right font-bold text-emerald-600">$${formatMoney(s.total)}</td>
-            <td class="py-3 px-4 text-right">
-              <button onclick="cancelSale('${s.id}')" class="text-xs text-red-600 hover:underline font-medium">Anular</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function cancelSale(saleId) {
-      if (!confirm('¿Anular esta venta y devolver los productos al stock?')) return;
-      const idx = appData.sales.findIndex(s => s.id === saleId);
-      if (idx === -1) return;
-
-      const sale = appData.sales[idx];
-      sale.items.forEach(item => {
-        if (!item.isCustom) {
-          const prod = appData.products.find(p => p.id === item.id);
-          if (prod) prod.stock += item.qty;
-        }
-      });
-
-      appData.sales.splice(idx, 1);
-      saveData();
-      renderSalesView();
-      showToast('Venta anulada y stock restaurado');
-    }
-
-    function exportSalesCSV() {
-      if (appData.sales.length === 0) {
-        showToast('No hay ventas para exportar');
-        return;
-      }
-      let csv = 'Fecha,Medio de Pago,Productos,Total,Ganancia\n';
-      appData.sales.forEach(s => {
-        const d = new Date(s.date).toLocaleString('es-AR').replace(',', '');
-        const itemsStr = s.items.map(i => `${i.qty}x ${i.name}`).join(' | ').replace(/,/g, ' ');
-        csv += `"${d}","${s.paymentMethod}","${itemsStr}",${s.total},${s.profit || 0}\n`;
-      });
-      downloadFile(csv, `Ventas_${appData.storeName.replace(/\s+/g, '_')}.csv`, 'text/csv');
-    }
-
-    function loadSettingsForm() {
-      document.getElementById('cfg-store-name').value = appData.storeName;
-      document.getElementById('cfg-store-sub').value = appData.storeSub;
-      document.getElementById('cfg-owner-pass').value = '';
-      document.getElementById('cfg-cashier-pass').value = appData.cashierPassword || '';
-    }
-
-    function saveStoreSettings() {
-      appData.storeName = document.getElementById('cfg-store-name').value.trim() || 'Mi Comercio';
-      appData.storeSub = document.getElementById('cfg-store-sub').value.trim();
-      saveData();
-      document.getElementById('sidebar-store-name').textContent = appData.storeName;
-      showToast('Datos del comercio actualizados');
-    }
-
-    function saveSecuritySettings() {
-      const newOwner = document.getElementById('cfg-owner-pass').value;
-      const newCashier = document.getElementById('cfg-cashier-pass').value.trim();
-
-      if (newOwner && newOwner.length < 4) {
-        showToast('La clave de dueño debe tener al menos 4 caracteres');
-        return;
-      }
-      if (newOwner) appData.ownerPassword = newOwner;
-      appData.cashierPassword = newCashier;
-      saveData();
-      document.getElementById('cfg-owner-pass').value = '';
-      showToast('Configuración de seguridad guardada');
-    }
-
-    function exportBackupJSON() {
-      const json = JSON.stringify(appData, null, 2);
-      const dateStr = new Date().toISOString().slice(0, 10);
-      downloadFile(json, `Respaldo_NexoCaja_${dateStr}.json`, 'application/json');
-      showToast('Respaldo descargado. Guardalo en tu WhatsApp.');
-    }
-
-    function importBackupJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const imported = JSON.parse(e.target.result);
-          if (imported && Array.isArray(imported.products)) {
-            appData = { ...appData, ...imported };
-            saveData();
-            showToast('Respaldo restaurado con éxito');
-            enterApp('owner');
-          } else {
-            showToast('Archivo de respaldo inválido');
-          }
-        } catch (err) {
-          showToast('Error al leer el archivo');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function clearDemoProducts() {
-      if (!confirm('¿Borrar TODOS los productos del catálogo para empezar a cargar los tuyos desde cero?')) return;
-      appData.products = [];
-      saveData();
-      showToast('Catálogo vaciado');
-    }
-
-    function formatMoney(num) {
-      return Number(num).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-    }
-
-    function downloadFile(content, filename, mimeType) {
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toast-msg').textContent = msg;
-      toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 3000);
-    }
-  </script>
-</body>
-</html>
+      document.getElementById('app-container').classList.add('
